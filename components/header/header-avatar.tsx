@@ -12,16 +12,11 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { logout } from '@/app/actions'
-import axiosInstance from '@/lib/axios-instance'
+import { logout } from '@/app/action'
 
 export const HeaderAvatar = () => {
 
-    // const logggingOut = async () => {
-    //     const result = await axiosInstance.get("/auth/logout")
-    //     console.log(result)
 
-    // }
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -71,7 +66,6 @@ export const HeaderAvatar = () => {
                         </button>
                     </form>
 
-                    {/* <button onClick={() => logggingOut()}>Logmeout</button> */}
 
                 </DropdownMenuItem>
 

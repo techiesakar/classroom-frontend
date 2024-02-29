@@ -12,7 +12,6 @@ export const usePost = (url: string) => {
             const response = await axios.post(BACKEND_URL + url, values, {
                 withCredentials: true
             })
-            console.log(response?.data)
             if (response.status === 200) {
                 router.refresh()
                 toast.success("Created Successfully")

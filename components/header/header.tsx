@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import { HeaderAvatar } from './header-avatar'
 import Link from 'next/link'
-import { getSession } from '@/app/actions'
+import { getSession } from '@/app/action'
 import { HeaderCta } from './header-cta'
 
 export const Header = async () => {

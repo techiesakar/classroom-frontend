@@ -3,7 +3,6 @@ import axios from "axios"
 import { BACKEND_URL } from "@/config/backend"
 import { cookies } from "next/headers";
 
-
 const axiosInstance = axios.create({
     baseURL: BACKEND_URL,
     withCredentials: true

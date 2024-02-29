@@ -16,7 +16,6 @@ export const useAuth = (url: string) => {
             const response = await axios.post(BACKEND_URL + url, values, {
                 withCredentials: true
             })
-            console.log(response?.data)
             if (response.status === 200) {
                 setSuccess(response?.data?.message || "Success")
                 setError("")
@@ -32,7 +31,6 @@ export const useAuth = (url: string) => {
             }
         }
         catch (error: any) {
-            console.log(error)
             setSuccess("")
             setError(error?.response?.data?.message || "")
         }

@@ -1,6 +1,5 @@
-
+import { fetchData } from "@/app/action"
 import { ClassCard } from "./class-card"
-import { fetchData } from "@/app/data/data"
 
 interface RoomType {
     id: string,
@@ -13,8 +12,9 @@ interface RoomType {
     }
 }
 export async function ClassGrid() {
-    const rooms = await fetchData("/class/views")
-    console.log(rooms)
+    const rooms = await fetchData("/class/views?type=student")
+
+
     return (
         <div className="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
             {rooms?.map((item: RoomType, id: number) => (

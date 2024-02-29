@@ -3,10 +3,10 @@ import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 import { redirect } from "next/navigation";
+import axiosInstance from "@/lib/axios-instance";
 
 const JWT_SECRET = process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET
 const key = new TextEncoder().encode(JWT_SECRET)
-
 
 export async function decrypt(input: string): Promise<any> {
     try {
@@ -37,4 +37,14 @@ export async function updateSession(request: NextRequest) {
     console.log("Session updated")
 }
 
+
+export const fetchData = async (url: string) => {
+    try {
+        const response = await axiosInstance.get(url)
+        return response?.data
+    }
+    catch (error) {
+        console.log("error")
+    }
+}
 
