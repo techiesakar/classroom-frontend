@@ -32,7 +32,7 @@ export function JoinClassModal() {
 
             if (response.status === 200) {
                 router.refresh()
-                toast.success("Created Successfully")
+                toast.success("Joined Successfully")
                 onClose()
             }
         }

@@ -11,14 +11,14 @@ interface RoomType {
         name: string
     }
 }
-export async function ClassGrid() {
-    const rooms = await fetchData("/class/views?type=student")
 
+export async function ClassGrid({ url }: { url: string }) {
+    const rooms = await fetchData(url || "/class/views?type=student")
 
     return (
         <div className="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
             {rooms?.map((item: RoomType, id: number) => (
-                <ClassCard key={item?.id} title={item?.name} subject={item?.subject} teacher={item?.teacher?.name} id={id} />
+                <ClassCard key={item?.id} title={item?.name} subject={item?.subject} teacher={item?.teacher?.name} id={id} inviteCode={item?.inviteCode} />
             ))}
         </div>
     )

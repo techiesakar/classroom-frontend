@@ -5,16 +5,15 @@ import { Contact, FolderClosed, } from "lucide-react"
 import { RoomCardActionButton } from "./room-card-action-button"
 import { getColorByIndex } from "@/lib/utils"
 
-
-
 type PropsType = {
     id: number,
     title: string,
     subject: string,
-    teacher: string
+    teacher: string,
+    inviteCode: string
 }
 
-export function ClassCard({ id, title, subject, teacher }: PropsType) {
+export function ClassCard({ id, title, subject, teacher, inviteCode }: PropsType) {
     const getHeaderColor = getColorByIndex(id)
     const getAvatarColor = getColorByIndex(id + 1)
 
@@ -27,7 +26,7 @@ export function ClassCard({ id, title, subject, teacher }: PropsType) {
                     <div className="text-xs text-white capitalize">{teacher}</div>
                 </div>
                 <div className="ml-auto"></div>
-                <RoomCardActionButton />
+                <RoomCardActionButton inviteCode={inviteCode} />
             </div>
             <CardContent className="h-[100px] relative">
                 <div className={`${getAvatarColor} size-16 uppercase absolute flex items-center justify-center text-3xl   shadow-sm text-white  rounded-full right-0 -translate-x-1/4 translate-y-1/2  bottom-full`}>
