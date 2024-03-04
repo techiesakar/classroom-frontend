@@ -11,10 +11,11 @@ import { FormError } from "@/components/form-error"
 import { FormSuccess } from "@/components/form-success"
 
 import { useAuth } from "@/hooks/useAuth"
+import { login } from "@/app/action"
 
 export const SignInForm = () => {
 
-    const { onSubmit, success, error } = useAuth("/auth/login/")
+    const { success, error } = useAuth("/auth/login/")
 
     const form = useForm<LoginFormType>({
         resolver: zodResolver(loginFormSchema),
@@ -23,6 +24,10 @@ export const SignInForm = () => {
             password: ""
         }
     })
+
+    const onSubmit = async (values: LoginFormType) => {
+        await login(values)
+    }
 
 
     return (
