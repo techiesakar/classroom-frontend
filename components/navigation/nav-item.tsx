@@ -19,7 +19,7 @@ export const NavItem = ({ label, icon, options, path }: PropsType) => {
 
     return (
         <div className="w-full">
-            {label == "Teaching" && <Separator className="my-2" />}
+            {label == "Teaching" < Separator className="my-2" />}
             {options ? (
                 <div className="">
                     <Accordion type="single" collapsible className="w-full">
