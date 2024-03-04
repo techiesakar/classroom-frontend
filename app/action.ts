@@ -35,7 +35,6 @@ export async function login(values: LoginFormType) {
 
         if (response.status === 200) {
             cookies().set("classroom_token", token, {
-                sameSite: "strict",
                 httpOnly: true,
                 expires: new Date(Date.now() + 1000 * 60 * 60 * 1)
             })
