@@ -12,10 +12,14 @@ import { FormSuccess } from "@/components/form-success"
 
 import { useAuth } from "@/hooks/useAuth"
 import { login } from "@/app/action"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 export const SignInForm = () => {
+    const router = useRouter()
+    const [success, setSuccess] = useState("")
+    const [error, setError] = useState("")
 
-    const { success, error } = useAuth("/auth/login/")
 
     const form = useForm<LoginFormType>({
         resolver: zodResolver(loginFormSchema),
@@ -26,7 +30,16 @@ export const SignInForm = () => {
     })
 
     const onSubmit = async (values: LoginFormType) => {
-        await login(values)
+        const result = await login(values)
+        if (result?.success) {
+            setError("")
+            setSuccess(result.success)
+            router.replace("/")
+        }
+        if (result?.error) {
+            setSuccess("")
+            setError(result.error)
+        }
     }
 
 

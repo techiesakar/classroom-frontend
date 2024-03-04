@@ -39,11 +39,15 @@ export async function login(values: LoginFormType) {
                 httpOnly: true,
                 expires: new Date(Date.now() + 1000 * 60 * 60 * 1)
             })
-            redirect("/")
+            return {
+                success: response?.data?.message || "Success"
+            }
         }
     }
     catch (error: any) {
-        console.log(error?.response?.data?.message)
+        return {
+            error: error?.response?.data?.message || "Something went wrong"
+        }
     }
 }
 export async function logout() {
@@ -68,7 +72,7 @@ export const fetchData = async (url: string) => {
         return response?.data
     }
     catch (error: any) {
-        console.log(error?.data)
+
         console.log("error")
     }
 }
