@@ -42,14 +42,14 @@ export function SidebarScrollArea({ enrolledClasses, classesTeach }: PropsType) 
             label: "Teaching",
             icon: Users,
             options: classesTeach,
-            path: "/teachings",
+            path: "/t",
         },
         {
             id: "4",
             label: "Enrolled",
             icon: GraduationCap,
             options: enrolledClasses,
-            path: "/enrollments",
+            path: "/c",
         }
         , {
             id: "5",

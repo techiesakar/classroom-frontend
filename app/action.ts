@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 import { redirect } from "next/navigation";
 import axiosInstance from "@/lib/axios-instance";
-import { cache } from "react";
 
 const JWT_SECRET = process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET
 const key = new TextEncoder().encode(JWT_SECRET)
@@ -44,8 +43,8 @@ export const fetchData = async (url: string) => {
         const response = await axiosInstance.get(url)
         return response?.data
     }
-    catch (error) {
-        console.log(error)
+    catch (error: any) {
+        console.log(error?.data)
         console.log("error")
     }
 }

@@ -1,9 +1,11 @@
+"use client"
 import { ActionToolTip } from "@/components/action-tooltip"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Contact, FolderClosed, } from "lucide-react"
 import { RoomCardActionButton } from "./room-card-action-button"
 import { getColorByIndex } from "@/lib/utils"
+import { useRouter } from "next/navigation"
 
 type PropsType = {
     id: number,
@@ -11,16 +13,20 @@ type PropsType = {
     subject: string,
     teacher: string,
     inviteCode: string
+    url: string
 }
 
-export function ClassCard({ id, title, subject, teacher, inviteCode }: PropsType) {
+export async function ClassCard({ id, title, subject, teacher, inviteCode, url }: PropsType) {
+    const router = useRouter()
     const getHeaderColor = getColorByIndex(id)
     const getAvatarColor = getColorByIndex(id + 1)
 
+
+
     return (
-        <Card className="w-full">
-            <div className={`${getHeaderColor} text-white rounded-t relative flex p-5 justify-between`}>
-                <div className="space-y-2 tracking-wide w-[80%]">
+        <Card className="w-full cursor-pointer">
+            <div className={`${getHeaderColor} text-white rounded-t relative flex p-5 py-8 justify-between`}>
+                <div onClick={() => router.push(url || "/")} className="space-y-2 tracking-wide w-[80%]">
                     <div className="text-2xl font-medium truncate capitalize">{title}</div>
                     <div className="text-white text-xs capitalize">{subject}</div>
                     <div className="text-xs text-white capitalize">{teacher}</div>
@@ -28,7 +34,7 @@ export function ClassCard({ id, title, subject, teacher, inviteCode }: PropsType
                 <div className="ml-auto"></div>
                 <RoomCardActionButton inviteCode={inviteCode} />
             </div>
-            <CardContent className="h-[100px] relative">
+            <CardContent onClick={() => router.push(url || "/")} className="h-[100px] relative">
                 <div className={`${getAvatarColor} size-16 uppercase absolute flex items-center justify-center text-3xl   shadow-sm text-white  rounded-full right-0 -translate-x-1/4 translate-y-1/2  bottom-full`}>
                     {title[0]}
                 </div>
