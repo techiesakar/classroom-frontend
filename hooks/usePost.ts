@@ -1,8 +1,9 @@
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { useModal } from "./modalStore"
-import axios from "axios"
+
 import { BACKEND_URL } from "@/config/backend"
+import axios from "axios"
 
 export const usePost = (url: string) => {
     const router = useRouter()

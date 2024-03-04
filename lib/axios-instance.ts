@@ -12,7 +12,8 @@ axiosInstance.interceptors.request.use(
     async (config: any) => {
         const token = cookies().get("classroom_token")?.value;
         config.headers = {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
+
         }
         return config;
     },

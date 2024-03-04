@@ -10,7 +10,6 @@ import Link from "next/link"
 import { FormError } from "@/components/form-error"
 import { FormSuccess } from "@/components/form-success"
 
-import { useAuth } from "@/hooks/useAuth"
 import { login } from "@/app/action"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -37,6 +36,7 @@ export const SignInForm = () => {
             router.replace("/")
         }
         if (result?.error) {
+
             setSuccess("")
             setError(result.error)
         }
