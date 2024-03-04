@@ -1,8 +1,8 @@
 import { useRouter } from "next/navigation"
-import axios from "axios"
-import { BACKEND_URL } from "@/config/backend"
 import toast from "react-hot-toast"
 import { useModal } from "./modalStore"
+import axios from "axios"
+import { BACKEND_URL } from "@/config/backend"
 
 export const usePost = (url: string) => {
     const router = useRouter()
@@ -12,6 +12,7 @@ export const usePost = (url: string) => {
             const response = await axios.post(BACKEND_URL + url, values, {
                 withCredentials: true
             })
+
             if (response.status === 200) {
                 router.refresh()
                 toast.success("Created Successfully")
@@ -19,6 +20,7 @@ export const usePost = (url: string) => {
             }
         }
         catch (error: any) {
+            console.log(error)
             toast.error(error?.response?.data?.message || "Something went wrong")
         }
     }
