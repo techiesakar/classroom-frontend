@@ -12,8 +12,8 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
 
             <div className='w-full h-full  flex items-center max-w-[1280px] mx-auto'>
-                <div className='grid grid-cols-12 w-full justify-center'>
-                    <div className='lg:col-span-4 col-span-6 lg:col-start-2 flex flex-col justify-center'>
+                <div className='grid grid-cols-12 w-full justify-center px-6'>
+                    <div className='lg:col-span-4  md:col-span-6 col-span-12  lg:col-start-2 md:flex hidden flex-col justify-center'>
                         <Image
                             src={"/logo.svg"}
                             width={80}
@@ -23,7 +23,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
                         />
                         <p className='text-white font-light text-2xl'>Welcome to classroom...</p>
                     </div>
-                    <div className='bg-white rounded  col-span-6 lg:col-span-4 lg:col-end-11'>
+                    <div className='rounded  md:col-span-6 col-span-12 lg:col-span-4 lg:col-end-11'>
                         {children}
                     </div>
                 </div>

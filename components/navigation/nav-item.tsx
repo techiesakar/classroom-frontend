@@ -51,8 +51,6 @@ export const NavItem = ({ label, icon, options, path }: PropsType) => {
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>
-
-
                 </div>
             ) : (
 
@@ -66,6 +64,5 @@ export const NavItem = ({ label, icon, options, path }: PropsType) => {
             )}
 
         </div>
-
     );
 };
