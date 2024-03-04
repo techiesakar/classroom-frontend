@@ -30,6 +30,7 @@ export function SidebarScrollArea({ enrolledClasses, classesTeach }: PropsType) 
             id: "1",
             label: "Home",
             icon: Home,
+            path: "/"
         },
         {
             id: "2",
@@ -41,12 +42,14 @@ export function SidebarScrollArea({ enrolledClasses, classesTeach }: PropsType) 
             label: "Teaching",
             icon: Users,
             options: classesTeach,
+            path: "/t",
         },
         {
             id: "4",
             label: "Enrolled",
             icon: GraduationCap,
-            options: enrolledClasses
+            options: enrolledClasses,
+            path: "/c",
         }
         , {
             id: "5",
@@ -62,9 +65,9 @@ export function SidebarScrollArea({ enrolledClasses, classesTeach }: PropsType) 
     return (
         <ScrollArea className="h-full w-full  border">
             <div className="py-4 pr-2 flex flex-col items-start">
-                {items.map((item, id: number) => {
+                {items.map((item) => {
                     return (
-                        <NavItem key={item.id} id={id} label={item.label} icon={item.icon} options={item?.options} />
+                        <NavItem key={item.id} label={item.label} icon={item.icon} options={item?.options} path={item?.path} />
                     )
                 }
                 )}
