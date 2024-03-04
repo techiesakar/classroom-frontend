@@ -21,7 +21,7 @@ export async function ClassGrid({ url }: { url: string }) {
             {rooms?.map((room: RoomType, id: number) => {
                 const isTeacher = currentUser.sub === room.teacher.id
                 return (
-                    <ClassCard key={room?.id} title={room?.name} subject={room?.subject} teacher={room?.teacher?.name} id={id} inviteCode={room?.inviteCode} url={isTeacher ? `/t/${room.id}` : `/c/${room.id}`} />
+                    <ClassCard key={room?.id} title={room?.name} subject={room?.subject} teacher={room?.teacher?.name} id={id} inviteCode={room?.inviteCode} url={isTeacher ? `/t/${room?.id}` : `/c/${room?.id}`} />
                 )
             }
             )}
