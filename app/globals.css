@@ -2,10 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body{
-    @apply h-full w-full 
+html,
+body {
+  @apply h-full w-full;
 }
 
-
-
-
+@layer {
+  body {
+    @apply !m-0 !overflow-y-scroll;
+  }
+}

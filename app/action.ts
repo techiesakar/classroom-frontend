@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import axiosInstance from "@/lib/axios-instance";
 import axios from "axios";
 import { BACKEND_URL } from "@/config/backend";
-import { LoginFormType } from "@/schema/sign-in-schema";
+import { LoginFormType, RegisterFormType } from "@/schema/sign-in-schema";
 import { revalidatePath } from "next/cache";
 
 
@@ -51,6 +51,28 @@ export async function login(values: LoginFormType) {
     }
 }
 
+export async function register(values: RegisterFormType) {
+    try {
+        const response = await axios.post(BACKEND_URL + "/auth/register/", values)
+
+        if (response.status === 200) {
+            return {
+                success: response?.data?.message || "Successfully Registerer"
+            }
+        }
+        else {
+            return {
+                success: response?.data?.message || "Something went wrong"
+            }
+        }
+    }
+    catch (error: any) {
+        return {
+            error: error?.response?.data?.message || "Something went wrong"
+        }
+    }
+}
+
 export async function logout() {
     cookies().set("classroom_token", "", { expires: new Date(Date.now()) })
     redirect("/signin")
@@ -66,16 +88,6 @@ export async function updateSession(request: NextRequest) {
     console.log("Session updated")
 }
 
-// export const fetchData = async (url: string) => {
-//     try {
-//         const response = await axiosInstance.get(url)
-//         return response?.data
-//     }
-//     catch (error: any) {
-
-//         console.log("error")
-//     }
-// }
 
 export const submitPost = async (url: string, values: any) => {
     try {

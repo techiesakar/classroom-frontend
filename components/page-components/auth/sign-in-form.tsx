@@ -1,24 +1,26 @@
 "use client"
 import { zodResolver } from "@hookform/resolvers/zod"
-
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
-import { useForm } from 'react-hook-form'
-import { Input } from "@/components/ui/input"
-import { LoginFormFields, LoginFormType, loginFormSchema } from "@/schema/sign-in-schema"
-import { Button } from "@/components/ui/button"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { FormError } from "@/components/form-error"
-import { FormSuccess } from "@/components/form-success"
 
 import { login } from "@/app/action"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
+
+import { LoginFormFields, LoginFormType, loginFormSchema } from "@/schema/sign-in-schema"
+
+import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
+import { Button } from "@/components/ui/button"
+import { useForm } from 'react-hook-form'
+import { Input } from "@/components/ui/input"
+import { FormError } from "@/components/form-error"
+import { FormSuccess } from "@/components/form-success"
+import RiseLoader from "react-spinners/RiseLoader"
 
 export const SignInForm = () => {
     const router = useRouter()
     const [success, setSuccess] = useState("")
     const [error, setError] = useState("")
-
+    const [loading, setLoading] = useState(false)
 
     const form = useForm<LoginFormType>({
         resolver: zodResolver(loginFormSchema),
@@ -29,6 +31,7 @@ export const SignInForm = () => {
     })
 
     const onSubmit = async (values: LoginFormType) => {
+        setLoading(true)
         const result = await login(values)
         if (result?.success) {
             setError("")
@@ -36,10 +39,10 @@ export const SignInForm = () => {
             router.replace("/")
         }
         if (result?.error) {
-
             setSuccess("")
             setError(result.error)
         }
+        setLoading(false)
     }
 
 
@@ -49,7 +52,7 @@ export const SignInForm = () => {
             <p className="text-sm">New user ? <Link href={"/signup"} className='text-xs text-blue-600'>Create an account</Link></p>
 
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     {LoginFormFields.map((item) => {
                         return (
                             <FormField key={item.fieldId}
@@ -68,7 +71,10 @@ export const SignInForm = () => {
                     })}
                     <FormError message={error || ""} />
                     <FormSuccess message={success || ""} />
-                    <Button type="submit" className="bg-indigo-600 hover:bg-indigo-500">Sign In</Button>
+                    {loading ? <div className="flex items-center justify-center"><RiseLoader size={10} color="#36d7b7" /></div>
+                        :
+                        <Button type="submit" className="bg-indigo-600  w-full hover:bg-indigo-500">Sign In</Button>
+                    }
                     <p className="text-sm"> <Link href={"/signup"} className='text-xs text-blue-600'>Forget Password ?</Link></p>
 
                 </form>

@@ -1,4 +1,3 @@
-import axios from "axios"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -17,9 +16,8 @@ import toast from "react-hot-toast"
 import { updatePost } from "@/app/action"
 
 export function JoinClassModal() {
-    const { isOpen, onClose, type } = useModal()
     const router = useRouter()
-
+    const { isOpen, onClose, type } = useModal()
     const isModalOpen = isOpen && type === "joinClass"
     const [inviteCode, setInviteCode] = useState("")
     const onSubmit = async () => {
@@ -31,6 +29,7 @@ export function JoinClassModal() {
             router.refresh()
             if (response?.success) {
                 router.refresh()
+                router.push("/c")
                 toast.success(response.success)
                 onClose()
             }

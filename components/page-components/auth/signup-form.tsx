@@ -1,19 +1,24 @@
 "use client"
 import { zodResolver } from "@hookform/resolvers/zod"
+import Link from "next/link"
+import { useState } from "react"
+
+import { register } from "@/app/action"
+
+import { RegisterFormFields, RegisterFormType, registerFormSchema } from "@/schema/sign-in-schema"
 
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
+import { Button } from "@/components/ui/button"
 import { useForm } from 'react-hook-form'
 import { Input } from "@/components/ui/input"
-import { RegisterFormFields, RegisterFormType, registerFormSchema } from "@/schema/sign-in-schema"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { useAuth } from "@/hooks/useAuth"
 import { FormError } from "@/components/form-error"
 import { FormSuccess } from "@/components/form-success"
+import RiseLoader from "react-spinners/RiseLoader"
 
 export const SignUpForm = () => {
-    const { onSubmit, success, error } = useAuth("/auth/register/")
-
+    const [success, setSuccess] = useState("")
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
     const form = useForm<RegisterFormType>({
         resolver: zodResolver(registerFormSchema),
         defaultValues: {
@@ -22,6 +27,21 @@ export const SignUpForm = () => {
             password: ""
         }
     })
+
+    const onSubmit = async (values: RegisterFormType) => {
+        setLoading(true)
+        const result = await register(values)
+        if (result?.success) {
+            setError("")
+            setSuccess(result.success)
+        }
+        if (result?.error) {
+            setSuccess("")
+            setError(result.error)
+        }
+        setLoading(false)
+    }
+
 
     return (
         <div className="space-y-4 bg-white p-14 rounded-xl">
@@ -50,7 +70,10 @@ export const SignUpForm = () => {
 
                     <FormError message={error || ""} />
                     <FormSuccess message={success || ""} />
-                    <Button type="submit" className="bg-indigo-600 hover:bg-indigo-500">Sign Up</Button>
+                    {loading ? <div className="flex items-center justify-center"><RiseLoader size={10} color="#36d7b7" /></div>
+                        :
+                        <Button type="submit" className="bg-indigo-600  w-full hover:bg-indigo-500">Sign Up</Button>
+                    }
                 </form>
             </Form>
         </div>
