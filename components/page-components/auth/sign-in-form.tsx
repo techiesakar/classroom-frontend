@@ -8,13 +8,14 @@ import { login } from "@/app/action"
 
 import { LoginFormFields, LoginFormType, loginFormSchema } from "@/schema/sign-in-schema"
 
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Button } from "@/components/ui/button"
 import { useForm } from 'react-hook-form'
 import { Input } from "@/components/ui/input"
 import { FormError } from "@/components/form-error"
 import { FormSuccess } from "@/components/form-success"
 import RiseLoader from "react-spinners/RiseLoader"
+import { Label } from "@/components/ui/label"
 
 export const SignInForm = () => {
     const router = useRouter()
@@ -26,7 +27,8 @@ export const SignInForm = () => {
         resolver: zodResolver(loginFormSchema),
         defaultValues: {
             username: "",
-            password: ""
+            password: "",
+
         }
     })
 
@@ -59,11 +61,12 @@ export const SignInForm = () => {
                                 control={form.control}
                                 name={item.fieldId as keyof typeof form.getValues}
                                 render={({ field }) => (
-                                    <FormItem className="space-y-1">
-                                        <FormLabel>{item.label}</FormLabel>
+                                    <FormItem className="space-y-1.5">
+                                        <Label>{item.label}</Label>
                                         <FormControl>
                                             <Input type={item.type} {...field} placeholder={item.placeholder} className="text-xs" />
                                         </FormControl>
+                                        <FormMessage className="text-xs font-light" />
                                     </FormItem>
                                 )}
                             />

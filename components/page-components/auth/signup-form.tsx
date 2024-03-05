@@ -7,15 +7,19 @@ import { register } from "@/app/action"
 
 import { RegisterFormFields, RegisterFormType, registerFormSchema } from "@/schema/sign-in-schema"
 
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Button } from "@/components/ui/button"
 import { useForm } from 'react-hook-form'
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
 import { FormError } from "@/components/form-error"
 import { FormSuccess } from "@/components/form-success"
 import RiseLoader from "react-spinners/RiseLoader"
+import { useRouter } from "next/navigation"
 
 export const SignUpForm = () => {
+    const router = useRouter()
     const [success, setSuccess] = useState("")
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
@@ -24,7 +28,8 @@ export const SignUpForm = () => {
         defaultValues: {
             name: "",
             username: "",
-            password: ""
+            password: "",
+            confirmPassword: ""
         }
     })
 
@@ -33,6 +38,7 @@ export const SignUpForm = () => {
         const result = await register(values)
         if (result?.success) {
             setError("")
+            router.push("/signin")
             setSuccess(result.success)
         }
         if (result?.error) {
@@ -44,7 +50,7 @@ export const SignUpForm = () => {
 
 
     return (
-        <div className="space-y-4 bg-white p-14 rounded-xl">
+        <div className="space-y-5 bg-white p-14 rounded-xl">
             <div className="text-3xl font-semibold">Sign Up</div>
             <p className="text-sm">Already have account ? <Link href={"/signin"} className='text-xs text-blue-600'>Login</Link></p>
 
@@ -56,8 +62,9 @@ export const SignUpForm = () => {
                                 control={form.control}
                                 name={item.fieldId as keyof typeof form.getValues}
                                 render={({ field }) => (
-                                    <FormItem className="space-y-1">
-                                        <FormLabel>{item.label}</FormLabel>
+                                    <FormItem className="space-y-1.5">
+                                        <Label>{item.label}</Label>
+                                        <FormMessage className="text-xs font-light  block" />
                                         <FormControl>
                                             <Input type={item.type} {...field} placeholder={item.placeholder} className="text-xs" />
                                         </FormControl>

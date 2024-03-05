@@ -52,8 +52,13 @@ export async function login(values: LoginFormType) {
 }
 
 export async function register(values: RegisterFormType) {
+    const parsedValue = {
+        name: values.name,
+        username: values.username,
+        password: values.password
+    }
     try {
-        const response = await axios.post(BACKEND_URL + "/auth/register/", values)
+        const response = await axios.post(BACKEND_URL + "/auth/register/", parsedValue)
 
         if (response.status === 200) {
             return {
