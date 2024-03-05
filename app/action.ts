@@ -117,12 +117,12 @@ export const updatePost = async (url: string, values: any) => {
         const response = await axiosInstance.patch(url, values)
         if (response.status === 200) {
             return {
-                success: response?.data?.message || "Success"
+                success: response?.data?.message || "Success",
+                data: response.data
             }
         }
     }
     catch (error: any) {
-        console.log(error)
         return {
             error: error?.response?.data?.message || "Something went wrong"
         }
