@@ -10,7 +10,7 @@ type PropsType = {
 export const RoomSidebar = ({ classId, inviteCode }: PropsType) => {
 
     return (
-        <aside className='w-60'>
+        <aside className='md:w-60 w-full'>
             <Card >
                 <CardHeader className='px-3 pb-3 '>
                     <div className='flex justify-between items-center'>

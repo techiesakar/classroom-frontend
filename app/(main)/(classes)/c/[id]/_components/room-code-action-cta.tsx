@@ -33,7 +33,7 @@ export function RoomCodeActionCta({ classId, inviteCode }: PropsType) {
                     <MoreVertical className="size-5" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-fit py-1 px-2 absolute left-[-88px]" >
+            <PopoverContent className="w-fit py-1 px-2 " >
                 <div className=" flex flex-col text-sm">
                     <PopoverClose>
                         <Button onClick={onCopy} variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2"><Link className="size-5 mr-2" /><span> Copy Invite Code</span></Button>
