@@ -12,13 +12,25 @@ import { classFormFields, classFormInitialValues, classFormSchema } from "@/sche
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form"
-import { usePost } from "@/hooks/usePost"
+
+import { submitPost } from "@/app/action"
+import toast from "react-hot-toast"
 
 
 export function CreateClassModal() {
     const { isOpen, onClose, type } = useModal()
     const isModalOpen = isOpen && type === "createClass"
-    const { onSubmit } = usePost("/class/create")
+
+    const onSubmit = async (values: any) => {
+        const result = await submitPost("/class/create", values)
+        if (result?.success) {
+            toast.success(result.success)
+            onClose()
+        }
+        if (result?.error) {
+            toast.error(result?.error)
+        }
+    }
 
     const form = useForm({
         resolver: zodResolver(classFormSchema),

@@ -25,6 +25,7 @@ export async function decrypt(input: string): Promise<any> {
         return null
     }
 }
+
 export async function login(values: LoginFormType) {
     try {
         const response = await axios.post(BACKEND_URL + "/auth/login/", values, {
@@ -49,6 +50,7 @@ export async function login(values: LoginFormType) {
         }
     }
 }
+
 export async function logout() {
     cookies().set("classroom_token", "", { expires: new Date(Date.now()) })
     redirect("/signin")
@@ -76,3 +78,19 @@ export const fetchData = async (url: string) => {
     }
 }
 
+export const submitPost = async (url: string, values: any) => {
+    try {
+        const response = await axiosInstance.post(url, values)
+        if (response.status === 200) {
+            return {
+                success: response?.data?.message || "Success"
+            }
+        }
+    }
+    catch (error: any) {
+        console.log(error)
+        return {
+            error: error?.response?.data?.message || "Something went wrong"
+        }
+    }
+}
