@@ -2,7 +2,7 @@ import { ClassGrid } from '@/components/page-components/homepage/class-grid'
 import { GridSkeleton } from '@/components/skeleton/grid-skeleton'
 import React, { Suspense } from 'react'
 
-const MyEnrollments = () => {
+const MyClasses = () => {
     return (
         <div className="w-full">
             <Suspense fallback={<GridSkeleton />}>
@@ -12,4 +12,4 @@ const MyEnrollments = () => {
     )
 }
 
-export default MyEnrollments
+export default MyClasses
