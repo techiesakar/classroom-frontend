@@ -17,7 +17,7 @@ const SingleClass = async ({ params }: PropsType) => {
     return (
         <section className='max-w-5xl w-full mx-auto p-6 space-y-6'>
             <RoomBanner room={room} />
-            <div className='flex gap-6'>
+            <div className='flex md:flex-row flex-col gap-6'>
                 <RoomSidebar classId={room?.id} inviteCode={room?.inviteCode} />
                 <RoomBody />
             </div>
