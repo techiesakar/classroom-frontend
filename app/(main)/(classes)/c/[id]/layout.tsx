@@ -12,7 +12,7 @@ type PropsType = {
 const SingleClassLayout = async ({ children, params }: PropsType) => {
     const { sub } = await getSession()
     const room = await getItems(`/class/${params.id}`)
-    const role = (sub == room?.teacher.id ? "teacher" : "student")
+    const role = (sub == room?.teacher?.id ? "teacher" : "student")
 
     return (
         <>

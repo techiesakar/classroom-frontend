@@ -7,10 +7,10 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
+import { HOST_URL } from "@/config/env"
 import { PopoverClose } from "@radix-ui/react-popover"
 import { Clipboard, Link, MoreVertical, RotateCcw } from "lucide-react"
 import { useRouter } from "next/navigation"
-import toast from "react-hot-toast"
 
 interface PropsType {
     classId: string,
@@ -18,14 +18,8 @@ interface PropsType {
 }
 
 export function RoomCodeActionCta({ classId, inviteCode }: PropsType) {
-
     const router = useRouter()
-    const onCopy = () => {
-        navigator.clipboard.writeText(inviteCode)
-        toast.success('Copied', {
-            position: "bottom-center"
-        })
-    }
+    const inviteLink = HOST_URL + `/invite/${inviteCode}`
     return (
         <Popover>
             <PopoverTrigger asChild >
@@ -36,10 +30,17 @@ export function RoomCodeActionCta({ classId, inviteCode }: PropsType) {
             <PopoverContent className="w-fit py-1 px-2 " >
                 <div className=" flex flex-col text-sm">
                     <PopoverClose>
-                        <Button onClick={onCopy} variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2"><Link className="size-5 mr-2" /><span> Copy Invite Code</span></Button>
+                        <Button onClick={async () => {
+                            await navigator.clipboard.writeText(inviteCode)
+                        }} variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2"><Link className="size-5 mr-2" /><span> Copy Invite Code</span></Button>
                     </PopoverClose>
                     <Separator className="my-1" />
-                    <Button variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2"><Clipboard className="size-5 mr-2" /><span> Copy class invite link</span></Button>
+                    <PopoverClose>
+                        <Button onClick={async () => {
+                            await navigator.clipboard.writeText(inviteLink)
+                        }}
+                            variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2"><Clipboard className="size-5 mr-2" /><span> Copy class invite link</span></Button>
+                    </PopoverClose>
 
                     <PopoverClose>
                         <Button onClick={async () => {

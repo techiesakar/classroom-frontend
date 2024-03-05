@@ -10,9 +10,9 @@ type PropsType = {
 
 export const ClassHeader = ({ role, classId }: PropsType) => {
     return (
-        <header className='flex items-center justify-between p-0.5  border rounded'>
+        <header className='flex flex-wrap items-center justify-between p-0.5  border rounded'>
             <div><ClassHeaderMenu role={role} classId={classId} /></div>
-            <div>
+            <div className='md:block hidden'>
                 <Button
                     className="hover:bg-slate-100 rounded-full transition-all p-3 size-12 flex items-center justify-center"
                     variant="ghost"                >

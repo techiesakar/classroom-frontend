@@ -6,14 +6,12 @@ import RoomBody from './_components/room-body'
 
 type PropsType = {
     params: {
-        id: string
+        id: string,
     }
 }
 
 const SingleClass = async ({ params }: PropsType) => {
     const room = await getItems(`/class/${params.id}`)
-    const { sub } = await getSession()
-    const role = (sub == room.teacher.id ? "teacher" : "student")
     return (
         <section className='max-w-5xl w-full mx-auto p-6 space-y-6'>
             <RoomBanner room={room} />
