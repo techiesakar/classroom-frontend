@@ -10,11 +10,11 @@ import {
 } from "@/components/ui/dialog"
 
 import { Input } from "@/components/ui/input"
-import { BACKEND_URL } from "@/config/backend"
 import { useModal } from "@/hooks/modalStore"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import toast from "react-hot-toast"
+import { updatePost } from "@/app/action"
 
 export function JoinClassModal() {
     const { isOpen, onClose, type } = useModal()
@@ -27,14 +27,15 @@ export function JoinClassModal() {
             return null
         }
         try {
-            const response = await axios.patch(BACKEND_URL + `/class/${inviteCode}/join`, {}, {
-                withCredentials: true
-            })
-
-            if (response.status === 200) {
+            const response = await updatePost(`/class/${inviteCode}/join`, {})
+            router.refresh()
+            if (response?.success) {
                 router.refresh()
-                toast.success("Joined Successfully")
+                toast.success(response.success)
                 onClose()
+            }
+            if (response?.error) {
+                toast.error(response?.error)
             }
         }
         catch (error: any) {

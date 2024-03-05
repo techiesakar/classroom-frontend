@@ -1,10 +1,10 @@
 import React from 'react'
 import { SidebarScrollArea } from './scroll-area'
-import { fetchData } from '@/app/action'
+import { getItems } from "@/lib/api"
 
 export const Sidebar = async () => {
-    const classesTeach = await fetchData("/class/views?type=teacher")
-    const enrolledClasses = await fetchData("/class/views?type=student")
+    const classesTeach = await getItems("/class/views?type=teacher")
+    const enrolledClasses = await getItems("/class/views?type=student")
 
     return (
         <aside className='flex flex-col bg-white h-screen lg:left-0  -left-full overflow-x-hidden overflow-y-auto z-40 fixed'>

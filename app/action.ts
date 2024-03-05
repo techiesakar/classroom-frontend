@@ -7,6 +7,7 @@ import axiosInstance from "@/lib/axios-instance";
 import axios from "axios";
 import { BACKEND_URL } from "@/config/backend";
 import { LoginFormType } from "@/schema/sign-in-schema";
+import { revalidatePath } from "next/cache";
 
 
 const JWT_SECRET = process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET
@@ -31,7 +32,6 @@ export async function login(values: LoginFormType) {
         const response = await axios.post(BACKEND_URL + "/auth/login/", values, {
             withCredentials: true
         })
-
         const token = response.data.classroom_token
 
         if (response.status === 200) {
@@ -66,21 +66,38 @@ export async function updateSession(request: NextRequest) {
     console.log("Session updated")
 }
 
+// export const fetchData = async (url: string) => {
+//     try {
+//         const response = await axiosInstance.get(url)
+//         return response?.data
+//     }
+//     catch (error: any) {
 
-export const fetchData = async (url: string) => {
-    try {
-        const response = await axiosInstance.get(url)
-        return response?.data
-    }
-    catch (error: any) {
-
-        console.log("error")
-    }
-}
+//         console.log("error")
+//     }
+// }
 
 export const submitPost = async (url: string, values: any) => {
     try {
         const response = await axiosInstance.post(url, values)
+        if (response.status === 200) {
+            revalidatePath("/")
+            return {
+                success: response?.data?.message || "Success"
+            }
+        }
+    }
+    catch (error: any) {
+        console.log(error)
+        return {
+            error: error?.response?.data?.message || "Something went wrong"
+        }
+    }
+}
+
+export const updatePost = async (url: string, values: any) => {
+    try {
+        const response = await axiosInstance.patch(url, values)
         if (response.status === 200) {
             return {
                 success: response?.data?.message || "Success"
@@ -94,3 +111,4 @@ export const submitPost = async (url: string, values: any) => {
         }
     }
 }
+

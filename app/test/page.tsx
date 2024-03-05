@@ -1,10 +1,10 @@
 import { GridSkeleton } from '@/components/skeleton/grid-skeleton'
 import React from 'react'
 
-const Loading = () => {
+const page = () => {
     return (
         <GridSkeleton />
     )
 }
 
-export default Loading
+export default page

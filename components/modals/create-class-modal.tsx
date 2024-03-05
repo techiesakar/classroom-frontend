@@ -15,20 +15,23 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form"
 
 import { submitPost } from "@/app/action"
 import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
 
 
 export function CreateClassModal() {
+    const router = useRouter()
     const { isOpen, onClose, type } = useModal()
     const isModalOpen = isOpen && type === "createClass"
 
     const onSubmit = async (values: any) => {
-        const result = await submitPost("/class/create", values)
-        if (result?.success) {
-            toast.success(result.success)
+        const response = await submitPost("/class/create", values)
+        if (response?.success) {
+            toast.success(response.success)
             onClose()
+            router.push("/t")
         }
-        if (result?.error) {
-            toast.error(result?.error)
+        if (response?.error) {
+            toast.error(response?.error)
         }
     }
 

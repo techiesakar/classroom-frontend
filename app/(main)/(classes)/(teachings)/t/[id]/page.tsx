@@ -1,4 +1,6 @@
-import { fetchData } from '@/app/action'
+import { getSession } from "@/app/action"
+import { getItems } from "@/lib/api"
+import { redirect } from "next/navigation"
 
 type PropsType = {
     params: {
@@ -7,7 +9,11 @@ type PropsType = {
 }
 
 const SingleTeaching = async ({ params }: PropsType) => {
-    const room = await fetchData(`/class/${params.id}`)
+    const room = await getItems(`/class/${params.id}`)
+    const { sub } = await getSession()
+    if (sub !== room.teacher.id) {
+        redirect("/")
+    }
 
     return (
         <div>{room?.name}</div>

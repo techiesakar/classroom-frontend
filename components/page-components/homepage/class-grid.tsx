@@ -1,5 +1,6 @@
-import { fetchData, getSession } from "@/app/action"
+import { getSession } from "@/app/action"
 import { ClassCard } from "./class-card"
+import { getItems } from "@/lib/api"
 
 interface RoomType {
     id: string,
@@ -13,7 +14,9 @@ interface RoomType {
 }
 
 export async function ClassGrid({ url }: { url: string }) {
-    const rooms = await fetchData(url || "/class/views?type=student")
+    // const rooms = await fetchData(url || "/class/views?type=student")
+    const rooms = await getItems(url || "/class/views?type=student")
+
     const currentUser = await getSession()
     return (
         <div className="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
