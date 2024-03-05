@@ -14,10 +14,11 @@ import { useRouter } from "next/navigation"
 
 interface PropsType {
     classId: string,
-    inviteCode: string
+    inviteCode: string,
+    isAdmin: boolean
 }
 
-export function RoomCodeActionCta({ classId, inviteCode }: PropsType) {
+export function RoomCodeActionCta({ classId, inviteCode, isAdmin }: PropsType) {
     const router = useRouter()
     const inviteLink = HOST_URL + `/invite/${inviteCode}`
     return (
@@ -41,16 +42,16 @@ export function RoomCodeActionCta({ classId, inviteCode }: PropsType) {
                         }}
                             variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2"><Clipboard className="size-5 mr-2" /><span> Copy class invite link</span></Button>
                     </PopoverClose>
+                    {isAdmin &&
+                        <PopoverClose>
+                            <Button onClick={async () => {
+                                await updatePost(`/class/${classId}/generate`, {})
+                                router.refresh()
 
-                    <PopoverClose>
-                        <Button onClick={async () => {
-                            await updatePost(`/class/${classId}/generate`, {})
-                            router.refresh()
-
-                        }} variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2">
-                            < RotateCcw className="size-5 mr-2" /> <span>Reset class code</span>
-                        </Button>
-                    </PopoverClose>
+                            }} variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2">
+                                < RotateCcw className="size-5 mr-2" /> <span>Reset class code</span>
+                            </Button>
+                        </PopoverClose>}
 
                 </div>
             </PopoverContent>

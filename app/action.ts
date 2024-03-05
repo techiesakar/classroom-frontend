@@ -118,7 +118,7 @@ export const updatePost = async (url: string, values: any) => {
         if (response.status === 200) {
             return {
                 success: response?.data?.message || "Success",
-                data: response.data
+                data: response?.data
             }
         }
     }
