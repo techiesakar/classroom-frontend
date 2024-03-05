@@ -15,8 +15,7 @@ const InviteCodePage = async ({ params }: InviteCodeParams) => {
     }
 
     const response = await updatePost(`/class/${params.code}/join`, {})
-
-    if (response?.data) {
+    if (response?.data?.id) {
         return redirect(`/c/${response?.data?.id}`)
     }
     return redirect("/")

@@ -15,7 +15,7 @@ export const RoomBanner = ({ room }: PropsType) => {
                 className='w-full absolute inset-0 z-0'
             />
             <CardFooter className='relative z-50 self-end'>
-                <div className='lg:text-4xl sm:text-3xl text-2xl text-white font-medium'>BCA</div>
+                <div className='lg:text-4xl sm:text-3xl text-2xl text-white font-medium'>{room?.name}</div>
             </CardFooter>
         </Card>
     )
