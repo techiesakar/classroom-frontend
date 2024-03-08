@@ -1,4 +1,4 @@
-export interface RoomType {
+export interface IRoom {
     id: string,
     name: string,
     subject: string,
@@ -7,4 +7,9 @@ export interface RoomType {
         id: string,
         name: string
     }
+}
+
+export interface IUser {
+    id: string,
+    name: string,
 }

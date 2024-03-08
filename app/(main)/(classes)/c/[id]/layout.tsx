@@ -15,10 +15,10 @@ const SingleClassLayout = async ({ children, params }: PropsType) => {
     const role = (sub == room?.teacher?.id ? "teacher" : "student")
 
     return (
-        <>
+        <div className='space-y-4'>
             <ClassHeader role={role} classId={params?.id} />
             {children}
-        </>
+        </div>
     )
 }
 
