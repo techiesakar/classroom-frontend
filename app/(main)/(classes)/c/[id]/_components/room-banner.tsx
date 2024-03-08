@@ -1,9 +1,9 @@
 import { Card, CardFooter } from '@/components/ui/card'
-import { RoomType } from '@/lib/types'
+import { IRoom } from '@/lib/types'
 import Image from 'next/image'
 
 type PropsType = {
-    room: RoomType
+    room: IRoom
 }
 export const RoomBanner = ({ room }: PropsType) => {
     return (
