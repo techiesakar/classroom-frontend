@@ -22,6 +22,7 @@ export const useAuth = () => {
             setSuccess("")
             setError(result.error)
         }
+        setLoading(false)
     }
 
     return { onSubmit, success, error, loading }
