@@ -21,8 +21,6 @@ export async function ClassCard({ id, title, subject, teacher, inviteCode, url }
     const getHeaderColor = getColorByIndex(id)
     const getAvatarColor = getColorByIndex(id + 1)
 
-
-
     return (
         <Card className="w-full cursor-pointer">
             <div className={`${getHeaderColor} text-white rounded-t relative flex p-5 py-8 justify-between`}>
