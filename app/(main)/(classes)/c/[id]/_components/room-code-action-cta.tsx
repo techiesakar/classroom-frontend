@@ -20,6 +20,7 @@ interface PropsType {
 
 export function RoomCodeActionCta({ classId, inviteCode, isAdmin }: PropsType) {
     const router = useRouter()
+
     const inviteLink = HOST_URL + `/invite/${inviteCode}`
     return (
         <Popover>
