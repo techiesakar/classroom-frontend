@@ -12,6 +12,7 @@ type PropsType = {
 
 const SingleClass = async ({ params }: PropsType) => {
     const room = await getItems(`/class/${params.id}`)
+
     return (
         <section className='max-w-5xl w-full mx-auto p-6 space-y-6'>
             <RoomBanner room={room} />
