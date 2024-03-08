@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "./app/action";
+import { currentUser } from "./app/action";
 
 export async function middleware(request: NextRequest) {
-    const currentUser = await getSession()
+    const user = await currentUser()
     const path = request.nextUrl.pathname
     const isPublicPath = path.startsWith("/signin") || path.startsWith("/signup")
 
-    if (currentUser) {
+    if (user) {
         if (isPublicPath) {
             return NextResponse.redirect(new URL('/', request.url))
         }
@@ -20,5 +20,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/', '/t/:path*', '/c/:path*', '/signin/:path*', '/signup/:path*'],
+    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 }

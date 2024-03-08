@@ -1,4 +1,4 @@
-import { getSession } from '@/app/action'
+import { currentUser } from '@/app/action'
 import { getItems } from '@/lib/api'
 import { RoomBanner } from './_components/room-banner'
 import { RoomSidebar } from './_components/room-sidebar'

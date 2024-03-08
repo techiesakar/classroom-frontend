@@ -1,40 +1,28 @@
-import { LoginFormType } from "@/schema/sign-in-schema"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import axios from "axios"
-import { BACKEND_URL } from "@/config/backend"
-import toast from "react-hot-toast"
+import { login } from "@/app/action"
+import { LoginFormType, RegisterFormType } from "@/schema/sign-in-schema"
 
-export const useAuth = (url: string) => {
+export const useAuth = () => {
+    const router = useRouter()
     const [success, setSuccess] = useState("")
     const [error, setError] = useState("")
-    const router = useRouter()
+    const [loading, setLoading] = useState(false)
 
-    const onSubmit = async (values: LoginFormType) => {
 
-        try {
-            const response = await axios.post(BACKEND_URL + url, values, {
-                withCredentials: true
-            })
-            if (response.status === 200) {
-                setSuccess(response?.data?.message || "Success")
-                setError("")
-                if (url == "/auth/register") {
-                    router.replace("/signin")
-                    toast.success(response?.data?.message || "Loggedin Successfully")
-                }
-                else {
-                    router.replace("/")
-                    toast.success(response?.data?.message || "Registered Successfully")
-                }
-
-            }
+    const onSubmit = async (values: LoginFormType | RegisterFormType) => {
+        setLoading(true)
+        const result = await login(values)
+        if (result?.success) {
+            setError("")
+            setSuccess(result.success)
+            router.replace("/")
         }
-        catch (error: any) {
+        if (result?.error) {
             setSuccess("")
-            setError(error?.response?.data?.message || "")
+            setError(result.error)
         }
     }
 
-    return { onSubmit, success, error }
+    return { onSubmit, success, error, loading }
 }
