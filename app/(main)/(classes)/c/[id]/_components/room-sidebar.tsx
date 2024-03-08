@@ -2,14 +2,14 @@ import { Card, CardFooter, CardHeader } from '@/components/ui/card'
 import React from 'react'
 import { RoomCodeActionCta } from './room-code-action-cta'
 import { RoomType } from '@/lib/types'
-import { getSession } from '@/app/action'
+import { currentUser } from '@/app/action'
 
 type PropsType = {
     room: RoomType
 }
 
 export const RoomSidebar = async ({ room }: PropsType) => {
-    const { sub } = await getSession()
+    const { sub } = await currentUser()
     const isAdmin = room?.teacher?.id === sub
     return (
         <aside className='md:w-60 w-full'>

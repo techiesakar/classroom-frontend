@@ -1,4 +1,4 @@
-import { getSession } from "@/app/action"
+import { currentUser } from "@/app/action"
 import { ClassCard } from "./class-card"
 import { getItems } from "@/lib/api"
 

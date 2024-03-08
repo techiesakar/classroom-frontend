@@ -4,14 +4,28 @@ import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 import { redirect } from "next/navigation";
 import axiosInstance from "@/lib/axios-instance";
-import axios from "axios";
-import { BACKEND_URL } from "@/config/backend";
 import { LoginFormType, RegisterFormType } from "@/schema/sign-in-schema";
 import { revalidatePath } from "next/cache";
 
 
 const JWT_SECRET = process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET
 const key = new TextEncoder().encode(JWT_SECRET)
+
+
+export async function logout() {
+    cookies().set("classroom_token", "", { expires: new Date(Date.now()) })
+    redirect("/signin")
+}
+
+export async function currentUser() {
+    const session = cookies().get("classroom_token")?.value;
+    if (!session) return
+    return await decrypt(session)
+}
+
+export async function updateSession(request: NextRequest) {
+    console.log("Session updated")
+}
 
 export async function decrypt(input: string): Promise<any> {
     try {
@@ -29,11 +43,8 @@ export async function decrypt(input: string): Promise<any> {
 
 export async function login(values: LoginFormType) {
     try {
-        const response = await axios.post(BACKEND_URL + "/auth/login/", values, {
-            withCredentials: true
-        })
-        const token = response.data.classroom_token
-
+        const response = await axiosInstance.post("/auth/login/", values)
+        const token = response?.data?.classroom_token
         if (response.status === 200) {
             cookies().set("classroom_token", token, {
                 httpOnly: true,
@@ -58,11 +69,11 @@ export async function register(values: RegisterFormType) {
         password: values.password
     }
     try {
-        const response = await axios.post(BACKEND_URL + "/auth/register/", parsedValue)
+        const response = await axiosInstance.post("/auth/register/", parsedValue)
 
-        if (response.status === 200) {
+        if (response?.status === 200) {
             return {
-                success: response?.data?.message || "Successfully Registerer"
+                success: response?.data?.message || "Successfully Registered"
             }
         }
         else {
@@ -78,20 +89,6 @@ export async function register(values: RegisterFormType) {
     }
 }
 
-export async function logout() {
-    cookies().set("classroom_token", "", { expires: new Date(Date.now()) })
-    redirect("/signin")
-}
-
-export async function getSession() {
-    const session = cookies().get("classroom_token")?.value;
-    if (!session) return
-    return await decrypt(session)
-}
-
-export async function updateSession(request: NextRequest) {
-    console.log("Session updated")
-}
 
 
 export const submitPost = async (url: string, values: any) => {
@@ -105,7 +102,6 @@ export const submitPost = async (url: string, values: any) => {
         }
     }
     catch (error: any) {
-        console.log(error)
         return {
             error: error?.response?.data?.message || "Something went wrong"
         }

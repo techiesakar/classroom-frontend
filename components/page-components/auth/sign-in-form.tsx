@@ -1,14 +1,10 @@
 "use client"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
-
-import { login } from "@/app/action"
 
 import { LoginFormFields, LoginFormType, loginFormSchema } from "@/schema/sign-in-schema"
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Button } from "@/components/ui/button"
 import { useForm } from 'react-hook-form'
 import { Input } from "@/components/ui/input"
@@ -16,37 +12,18 @@ import { FormError } from "@/components/form-error"
 import { FormSuccess } from "@/components/form-success"
 import RiseLoader from "react-spinners/RiseLoader"
 import { Label } from "@/components/ui/label"
+import { useAuth } from "@/hooks/useAuth"
 
 export const SignInForm = () => {
-    const router = useRouter()
-    const [success, setSuccess] = useState("")
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
 
+    const { error, loading, onSubmit, success } = useAuth()
     const form = useForm<LoginFormType>({
         resolver: zodResolver(loginFormSchema),
         defaultValues: {
             username: "",
             password: "",
-
         }
     })
-
-    const onSubmit = async (values: LoginFormType) => {
-        setLoading(true)
-        const result = await login(values)
-        if (result?.success) {
-            setError("")
-            setSuccess(result.success)
-            router.replace("/")
-        }
-        if (result?.error) {
-            setSuccess("")
-            setError(result.error)
-        }
-        setLoading(false)
-    }
-
 
     return (
         <div className="space-y-4 bg-white p-14 rounded-xl">

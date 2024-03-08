@@ -1,4 +1,3 @@
-"use server"
 import axios from "axios"
 import { BACKEND_URL } from "@/config/backend"
 import { cookies } from "next/headers";
@@ -13,7 +12,6 @@ axiosInstance.interceptors.request.use(
         const token = cookies().get("classroom_token")?.value;
         config.headers = {
             Authorization: `Bearer ${token}`,
-
         }
         return config;
     },

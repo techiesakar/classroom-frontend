@@ -4,11 +4,9 @@ import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import { HeaderAvatar } from './header-avatar'
 import Link from 'next/link'
-import { getSession } from '@/app/action'
 import { HeaderCta } from './header-cta'
 
 export const Header = async () => {
-    const currentUser = await getSession()
     return (
         <header className='fixed top-0  bg-white border-b border-slate-200 w-full z-50'>
             <div className='px-4'>
