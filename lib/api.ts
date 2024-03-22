@@ -1,15 +1,23 @@
-import { cache } from "react"
-import axiosInstance from "./axios-instance"
-import axios from "axios"
-import { BACKEND_URL } from "@/config/backend"
 
-export const getItems = cache(async (url: string) => {
-    try {
-        const response = await axiosInstance.get(url)
-        return response?.data
+import { WORDPRESS_API_URL } from "@/config/env";
+
+export async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
+    const headers = { "Content-Type": "application/json" };
+
+    // WPGraphQL Plugin must be enabled
+    const res = await fetch(WORDPRESS_API_URL, {
+        headers,
+        method: "POST",
+        body: JSON.stringify({
+            query,
+            variables,
+        }),
+    });
+    const json = await res.json();
+    if (json.errors) {
+        console.error(json.errors);
+        throw new Error("Failed to fetch API");
     }
-    catch (error: any) {
-        console.log(error)
-        console.log("error")
-    }
-})
+    return json.data;
+
+}

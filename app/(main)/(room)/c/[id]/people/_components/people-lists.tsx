@@ -1,12 +1,11 @@
 import { Separator } from '@/components/ui/separator'
-import { IUser } from '@/lib/types'
+import { TUser } from '@/lib/types'
 import Image from 'next/image'
-import React from 'react'
 
 type PropsType = {
     title: string,
-    teacher?: IUser
-    students?: IUser[],
+    teacher?: TUser
+    students?: TUser[],
     showTotal?: boolean
 }
 
@@ -29,7 +28,7 @@ export const PeopleLists = ({ title, teacher, students, showTotal }: PropsType) 
                     <PeopleItem name={teacher?.name
                     } />
                 }
-                {students?.map((student: IUser) => {
+                {students?.map((student: TUser) => {
                     return <PeopleItem key={student.id} name={student.name} />
                 })}
             </div>

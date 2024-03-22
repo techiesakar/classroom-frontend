@@ -1,7 +1,6 @@
 import React from 'react'
-import { currentUser } from '@/app/action'
-import { ClassHeader } from '@/components/page-components/class/class-header'
-import { getItems } from '@/lib/api'
+import { currentUser, getItems } from '@/app/action'
+import { RoomHeader } from '@/components/page-components/room/room-header'
 
 type PropsType = {
     params: {
@@ -9,17 +8,17 @@ type PropsType = {
     },
     children: React.ReactNode
 }
-const SingleClassLayout = async ({ children, params }: PropsType) => {
+const SingleRoomLayout = async ({ children, params }: PropsType) => {
     const { sub } = await currentUser()
     const room = await getItems(`/class/${params.id}`)
     const role = (sub == room?.teacher?.id ? "teacher" : "student")
 
     return (
         <div className='space-y-4'>
-            <ClassHeader role={role} classId={params?.id} />
+            <RoomHeader role={role} roomId={params?.id} />
             {children}
         </div>
     )
 }
 
-export default SingleClassLayout
+export default SingleRoomLayout

@@ -1,8 +1,8 @@
+import { Suspense } from 'react'
 import { ClassGrid } from '@/components/page-components/homepage/class-grid'
 import { GridSkeleton } from '@/components/skeleton/grid-skeleton'
-import React, { Suspense } from 'react'
 
-const MyClasses = () => {
+const AllRooms = () => {
     return (
         <div className="w-full">
             <Suspense fallback={<GridSkeleton />}>
@@ -12,4 +12,4 @@ const MyClasses = () => {
     )
 }
 
-export default MyClasses
+export default AllRooms

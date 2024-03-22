@@ -1,4 +1,4 @@
-export interface IRoom {
+export type TRoom = {
     id: string,
     name: string,
     subject: string,
@@ -9,7 +9,7 @@ export interface IRoom {
     }
 }
 
-export interface IUser {
+export type TUser = {
     id: string,
     name: string,
 }

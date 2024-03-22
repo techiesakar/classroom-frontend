@@ -1,7 +1,6 @@
-import { getItems } from '@/lib/api'
 import React, { Suspense } from 'react'
 import { PeopleLists } from './_components/people-lists'
-import { currentUser } from '@/app/action'
+import { currentUser, getItems } from '@/app/action'
 import { SingleUserListSkeleton, UserListSkeletons } from '@/components/skeleton/user-list-skeleton'
 
 type ParamsType = {
