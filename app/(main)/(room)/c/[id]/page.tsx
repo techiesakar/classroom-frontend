@@ -21,7 +21,7 @@ const SingleRoom = async ({ params }: PropsType) => {
             <div className='flex md:flex-row flex-col gap-6'>
                 <RoomSidebar room={room} isAdmin={isAdmin} />
                 <main className='flex-1 h-full space-y-4'>
-                    <AnnouncementForm roomId={params.id} />
+                    {isAdmin && <AnnouncementForm roomId={params.id} />}
                     <AnnouncementBlock announcements={room?.announcements} teacher={room?.teacher} />
                 </main>
             </div>
