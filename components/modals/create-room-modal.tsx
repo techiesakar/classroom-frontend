@@ -13,27 +13,15 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form"
 
-import { submitPost } from "@/app/action"
-import toast from "react-hot-toast"
-import { useRouter } from "next/navigation"
+import { usePost } from "@/hooks/usePost"
 
-
-export function CreateClassModal() {
-    const router = useRouter()
+export function CreateRoomModal() {
     const { isOpen, onClose, type } = useModal()
-    const isModalOpen = isOpen && type === "createClass"
-
-    const onSubmit = async (values: any) => {
-        const response = await submitPost("/class/create", values)
-        if (response?.success) {
-            toast.success(response.success)
-            onClose()
-            router.push("/t")
-        }
-        if (response?.error) {
-            toast.error(response?.error)
-        }
-    }
+    const isModalOpen = isOpen && type === "createRoom"
+    const { onSubmit } = usePost("/room/create", {
+        type: "post",
+        showToast: false
+    })
 
     const form = useForm({
         resolver: zodResolver(classFormSchema),
@@ -41,7 +29,10 @@ export function CreateClassModal() {
     })
 
     return (
-        <Dialog open={isModalOpen} onOpenChange={onClose}>
+        <Dialog open={isModalOpen} onOpenChange={() => {
+            onClose()
+            form.reset()
+        }}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Create Class</DialogTitle>

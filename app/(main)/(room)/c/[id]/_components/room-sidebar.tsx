@@ -19,7 +19,7 @@ export const RoomSidebar = async ({ room, isAdmin }: PropsType) => {
                 <CardHeader className='px-3 pb-3 '>
                     <div className='flex justify-between items-center'>
                         <div className='text-sm text-gray-600 font-medium'>Class Code</div>
-                        <RoomCodeActionCta classId={room?.id} inviteCode={room?.inviteCode} isAdmin={isAdmin} setLoading={setLoading} />
+                        <RoomCodeActionCta roomId={room?.id} inviteCode={room?.inviteCode} isAdmin={isAdmin} setLoading={setLoading} />
                     </div>
                 </CardHeader>
                 <CardFooter className='px-3'>

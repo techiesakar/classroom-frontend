@@ -12,7 +12,7 @@ type ParamsType = {
 const People = async ({ params }: ParamsType) => {
 
     const user = await currentUser()
-    const room = await getItems(`/class/${params.id}`)
+    const room = await getItems(`/room/${params.id}`)
     const isAdmin = room?.teacher?.id == user?.sub
 
     return (

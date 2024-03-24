@@ -3,8 +3,8 @@ import { SidebarScrollArea } from './scroll-area'
 import { getItems } from '@/app/action'
 
 export const Sidebar = async () => {
-    const classesTeach = await getItems("/class/views?type=teacher")
-    const enrolledClasses = await getItems("/class/views?type=student")
+    const classesTeach = await getItems("/room/views?type=teacher")
+    const enrolledClasses = await getItems("/room/views?type=student")
 
     return (
         <aside className='flex flex-col bg-white h-screen lg:left-0  -left-full overflow-x-hidden overflow-y-auto z-40 fixed'>

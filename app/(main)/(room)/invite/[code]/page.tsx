@@ -1,5 +1,5 @@
+import { submitPost } from "@/app/action";
 import { redirect } from "next/navigation";
-import { updatePost } from '@/app/action';
 
 
 interface InviteCodeParams {
@@ -14,7 +14,7 @@ const InviteCodePage = async ({ params }: InviteCodeParams) => {
         return redirect("/")
     }
 
-    const response = await updatePost(`/class/${params.code}/join`, {})
+    const response = await submitPost(`/room/${params.code}/join`, {}, "patch")
     if (response?.data?.id) {
         return redirect(`/c/${response?.data?.id}`)
     }

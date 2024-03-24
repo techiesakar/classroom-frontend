@@ -1,5 +1,5 @@
 "use client"
-import { deleteRoom } from "@/app/action"
+import { LeaveRoomModal } from "@/components/modals/leave-room-modal"
 import { Button } from "@/components/ui/button"
 import {
     Popover,
@@ -31,12 +31,14 @@ export function RoomCardActionButton({ inviteCode, isAdmin, roomId }: PropsType)
             </PopoverTrigger>
             <PopoverContent className="w-fit py-1 px-2 absolute left-[-88px]" >
                 <div className=" flex flex-col text-sm">
-                    <Button
-                        onClick={async () => {
-                            const response = await deleteRoom(roomId)
-                            console.log(response)
-                        }}
-                        variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2">{isAdmin ? "Delete Room" : "UnEnroll"}</Button>
+                    {isAdmin
+                        &&
+                        <>
+                            <Button variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2">Edit Room</Button>
+                            <LeaveRoomModal roomId={roomId} isAdmin={isAdmin} />
+                        </>
+
+                    }
                     <PopoverClose>
                         <Button onClick={onCopy} variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2">Copy Invite Code</Button>
                     </PopoverClose>

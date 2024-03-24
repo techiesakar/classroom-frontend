@@ -24,13 +24,13 @@ export const HeaderCta = () => {
             </PopoverTrigger>
             <PopoverContent className="w-fit p-2 absolute left-[-88px]">
                 <div className=" flex flex-col text-sm">
-                    <Button onClick={() => onOpen("joinClass")}
+                    <Button onClick={() => onOpen("joinRoom")}
                         variant="ghost"
                         className="font-medium leading-none  w-full flex items-center justify-start p-3"
                     >
                         Join Class
                     </Button>
-                    <Button onClick={() => onOpen("createClass")}
+                    <Button onClick={() => onOpen("createRoom")}
                         variant="ghost"
                         className="font-medium leading-none w-full flex items-center justify-start p-3"
                     >

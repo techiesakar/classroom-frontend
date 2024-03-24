@@ -1,29 +1,35 @@
-import axios from "axios"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
+import { submitPost } from "@/app/action"
 import { useModal } from "./modalStore"
+import { HTTPMethod } from "@/lib/types"
 
-import { BACKEND_URL } from "@/config/backend"
+export const usePost = <T>(url: string, options: {
+    type: HTTPMethod,
+    showToast?: boolean,
+    push?: string
 
-export const usePost = (url: string) => {
+}) => {
     const router = useRouter()
     const { onClose } = useModal()
-    const onSubmit = async (values: any) => {
-        try {
-            const response = await axios.post(BACKEND_URL + url, values, {
-                withCredentials: true
-            })
 
-            if (response.status === 200) {
-                router.refresh()
-                toast.success("Created Successfully")
-                onClose()
+    const onSubmit = async (values: T) => {
+        const response = await submitPost(url, values, options.type)
+        if (response?.success) {
+            if (options.push?.length) {
+                router.push(options.push)
             }
+            if (options.showToast) {
+                toast.success(response.success)
+            }
+            router.refresh()
         }
-        catch (error: any) {
-            console.log(error)
-            toast.error(error?.response?.data?.message || "Something went wrong")
+
+        if (response?.error) {
+            toast.error(response?.error)
         }
+        onClose()
+
     }
 
     return { onSubmit }
