@@ -18,7 +18,7 @@ type PropsType = {
     isAdmin: boolean
 }
 
-export async function ClassCard({ id, roomId, title, subject, teacher, inviteCode, url, isAdmin }: PropsType) {
+export async function RoomCard({ id, roomId, title, subject, teacher, inviteCode, url, isAdmin }: PropsType) {
     const router = useRouter()
     const getHeaderColor = getColorByIndex(id)
     const getAvatarColor = getColorByIndex(id + 1)
@@ -33,6 +33,7 @@ export async function ClassCard({ id, roomId, title, subject, teacher, inviteCod
                 </div>
                 <div className="ml-auto"></div>
                 <RoomCardActionButton inviteCode={inviteCode} isAdmin={isAdmin} roomId={roomId} />
+
             </div>
             <CardContent onClick={() => router.push(url || "/")} className="h-[100px] relative">
                 <div className={`${getAvatarColor} size-16 uppercase absolute flex items-center justify-center text-3xl   shadow-sm text-white  rounded-full right-0 -translate-x-1/4 translate-y-1/2  bottom-full`}>

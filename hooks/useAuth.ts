@@ -22,6 +22,7 @@ export const useAuth = () => {
         }
         if (result?.error) {
             setSuccess("")
+
             setError(result.error)
         }
         setLoading(false)

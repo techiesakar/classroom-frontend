@@ -1,5 +1,4 @@
-"use client"
-import { updatePost } from "@/app/action"
+import { submitPost } from "@/app/action"
 import { Button } from "@/components/ui/button"
 import {
     Popover,
@@ -12,13 +11,13 @@ import { PopoverClose } from "@radix-ui/react-popover"
 import { Clipboard, Link, MoreVertical, RotateCcw } from "lucide-react"
 
 type PropsType = {
-    classId: string,
+    roomId: string,
     inviteCode: string,
     isAdmin: boolean,
     setLoading: any
 }
 
-export function RoomCodeActionCta({ classId, inviteCode, isAdmin, setLoading }: PropsType) {
+export function RoomCodeActionCta({ roomId, inviteCode, isAdmin, setLoading }: PropsType) {
     const inviteLink = HOST_URL + `/invite/${inviteCode}`
     return (
         <Popover>
@@ -45,7 +44,7 @@ export function RoomCodeActionCta({ classId, inviteCode, isAdmin, setLoading }: 
                         <PopoverClose>
                             <Button onClick={async () => {
                                 setLoading(true)
-                                await updatePost(`/class/${classId}/generate`, {})
+                                await submitPost(`/room/${roomId}/generate`, {}, "patch")
                                 setLoading(false)
                             }} variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2">
                                 < RotateCcw className="size-5 mr-2" /> <span>Reset class code</span>

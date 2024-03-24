@@ -1,3 +1,7 @@
+import { useState } from "react"
+import { useModal } from "@/hooks/modalStore"
+import { usePost } from "@/hooks/usePost"
+
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -7,40 +11,20 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog"
-
 import { Input } from "@/components/ui/input"
-import { useModal } from "@/hooks/modalStore"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import toast from "react-hot-toast"
-import { updatePost } from "@/app/action"
 
-export function JoinClassModal() {
-    const router = useRouter()
+export function JoinRoomModal() {
     const { isOpen, onClose, type } = useModal()
-    const isModalOpen = isOpen && type === "joinClass"
+    const isModalOpen = isOpen && type === "joinRoom"
     const [inviteCode, setInviteCode] = useState("")
-    const onSubmit = async () => {
-        if (inviteCode.length < 3) {
-            return null
-        }
-        try {
-            const response = await updatePost(`/class/${inviteCode}/join`, {})
-            router.refresh()
-            if (response?.success) {
-                router.refresh()
-                router.push("/c")
-                toast.success(response.success)
-                onClose()
-            }
-            if (response?.error) {
-                toast.error(response?.error)
-            }
-        }
-        catch (error: any) {
-            toast.error(error?.response?.data?.message || "Something went wrong")
-        }
-    }
+
+    const { onSubmit } = usePost(`/room/${inviteCode}/join`, {
+        type: "patch",
+        showToast: true,
+        push: "/c"
+    })
+
+
     return (
         <Dialog open={isModalOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[425px]">
@@ -57,7 +41,7 @@ export function JoinClassModal() {
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button onClick={() => onSubmit()} type="submit">Join Now</Button>
+                    <Button disabled={inviteCode.length < 4} onClick={() => onSubmit(inviteCode)} type="submit">Join Now</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { LoginFormType, RegisterFormType } from "@/schema/sign-in-schema";
 import { revalidatePath } from "next/cache";
 import axiosInstance from "@/lib/axios-instance";
+import { HTTPMethod } from "@/lib/types";
 
 
 const JWT_SECRET = process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET
@@ -56,9 +57,9 @@ export async function login(values: LoginFormType) {
             }
         }
     }
-    catch (error) {
+    catch (error: any) {
         return {
-            error: "error"
+            error: error?.response?.data?.message || "Something went wrong"
         }
     }
 }
@@ -90,12 +91,17 @@ export async function register(values: RegisterFormType) {
     }
 }
 
-export const submitPost = async (url: string, values: any) => {
+export const submitPost = async <T>(url: string, values: T, type: HTTPMethod) => {
     try {
-        const response = await axiosInstance.post(url, values)
+        if (!(type === "post" || type === "patch")) {
+            throw new Error("Unsupported HTTP Method")
+        }
+        const response = await axiosInstance[type](url, values)
+
         if (response.status === 200) {
             revalidatePath("/")
             return {
+                data: response?.data,
                 success: response?.data?.message || "Success"
             }
         }
@@ -106,34 +112,25 @@ export const submitPost = async (url: string, values: any) => {
         }
     }
     catch (error: any) {
-        return {
-            error: error?.response?.data?.message || "Something went wrong"
-        }
-    }
-}
-
-export const updatePost = async (url: string, values: any) => {
-    try {
-        const response = await axiosInstance.patch(url, values)
-        if (response.status === 200) {
-            revalidatePath("/")
+        if (error?.response) {
             return {
-                success: response?.data?.message || "Success",
-                data: response?.data
+                error: error?.response?.data?.message || "Something went wrong"
+            }
+        }
+        else if (error?.request) {
+            return {
+                error: "Network Error"
             }
         }
         else {
             return {
-                error: response?.data?.message || "Error"
+                error: "Something went wrong"
             }
         }
     }
-    catch (error: any) {
-        return {
-            error: error?.response?.data?.message || "Something went wrong"
-        }
-    }
 }
+
+
 
 export const getItems = async (url: string) => {
     try {
@@ -150,12 +147,35 @@ export const getItems = async (url: string) => {
     }
 }
 
-export const deleteRoom = async (id: string) => {
+export const deleteItem = async (path: string) => {
     try {
-        const response = await axiosInstance.delete(`/class/${id}`)
+        const response = await axiosInstance.delete(path)
+        revalidatePath("/")
+        if (response.status == 200) {
+            return {
+                success: response?.data?.message || "Success"
+            }
+        }
+        else {
+            return null
+        }
+    }
+    catch (error: any) {
+        return {
+            error: error?.response?.data?.message || "Something went wrong"
+        }
+    }
+}
+
+
+
+export const unEnroll = async (id: string) => {
+    try {
+        const response = await axiosInstance.patch(`/room/unenroll/${id}`)
+        revalidatePath("/")
         return response.data
     }
     catch (error) {
-
+        console.log(error, "Error Deleting Room")
     }
 }
