@@ -10,17 +10,15 @@ import { Separator } from "@/components/ui/separator"
 import { HOST_URL } from "@/config/env"
 import { PopoverClose } from "@radix-ui/react-popover"
 import { Clipboard, Link, MoreVertical, RotateCcw } from "lucide-react"
-import { useRouter } from "next/navigation"
 
-interface PropsType {
+type PropsType = {
     classId: string,
     inviteCode: string,
-    isAdmin: boolean
+    isAdmin: boolean,
+    setLoading: any
 }
 
-export function RoomCodeActionCta({ classId, inviteCode, isAdmin }: PropsType) {
-    const router = useRouter()
-
+export function RoomCodeActionCta({ classId, inviteCode, isAdmin, setLoading }: PropsType) {
     const inviteLink = HOST_URL + `/invite/${inviteCode}`
     return (
         <Popover>
@@ -46,9 +44,9 @@ export function RoomCodeActionCta({ classId, inviteCode, isAdmin }: PropsType) {
                     {isAdmin &&
                         <PopoverClose>
                             <Button onClick={async () => {
+                                setLoading(true)
                                 await updatePost(`/class/${classId}/generate`, {})
-                                router.refresh()
-
+                                setLoading(false)
                             }} variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2">
                                 < RotateCcw className="size-5 mr-2" /> <span>Reset class code</span>
                             </Button>

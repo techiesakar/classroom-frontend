@@ -4,16 +4,12 @@ import * as React from "react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { ArchiveRestore, Calendar, GraduationCap, Home, Settings, Users } from "lucide-react"
 import { NavItem } from "./nav-item"
-import { RoomType } from "@/lib/types"
+import { TRoom } from "@/lib/types"
 
-interface PropsType {
-    classesTeach: RoomType[],
-    enrolledClasses: RoomType[],
-
+type PropsType = {
+    classesTeach: TRoom[],
+    enrolledClasses: TRoom[],
 }
-
-
-
 
 export function SidebarScrollArea({ enrolledClasses, classesTeach }: PropsType) {
 

@@ -9,14 +9,16 @@ import { useRouter } from "next/navigation"
 
 type PropsType = {
     id: number,
+    roomId: string,
     title: string,
     subject: string,
     teacher: string,
     inviteCode: string
-    url: string
+    url: string,
+    isAdmin: boolean
 }
 
-export async function ClassCard({ id, title, subject, teacher, inviteCode, url }: PropsType) {
+export async function ClassCard({ id, roomId, title, subject, teacher, inviteCode, url, isAdmin }: PropsType) {
     const router = useRouter()
     const getHeaderColor = getColorByIndex(id)
     const getAvatarColor = getColorByIndex(id + 1)
@@ -30,7 +32,7 @@ export async function ClassCard({ id, title, subject, teacher, inviteCode, url }
                     <div className="text-xs text-white capitalize">{teacher}</div>
                 </div>
                 <div className="ml-auto"></div>
-                <RoomCardActionButton inviteCode={inviteCode} />
+                <RoomCardActionButton inviteCode={inviteCode} isAdmin={isAdmin} roomId={roomId} />
             </div>
             <CardContent onClick={() => router.push(url || "/")} className="h-[100px] relative">
                 <div className={`${getAvatarColor} size-16 uppercase absolute flex items-center justify-center text-3xl   shadow-sm text-white  rounded-full right-0 -translate-x-1/4 translate-y-1/2  bottom-full`}>

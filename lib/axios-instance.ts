@@ -1,6 +1,11 @@
+/**
+ * This is axios instance for server component
+ * Use this only in server component
+ * For Client - use default axios
+ */
 import axios from "axios"
-import { BACKEND_URL } from "@/config/backend"
 import { cookies } from "next/headers";
+import { BACKEND_URL } from "@/config/env";
 
 const axiosInstance = axios.create({
     baseURL: BACKEND_URL,

@@ -3,9 +3,9 @@ import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 import { redirect } from "next/navigation";
-import axiosInstance from "@/lib/axios-instance";
 import { LoginFormType, RegisterFormType } from "@/schema/sign-in-schema";
 import { revalidatePath } from "next/cache";
+import axiosInstance from "@/lib/axios-instance";
 
 
 const JWT_SECRET = process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET
@@ -41,23 +41,24 @@ export async function decrypt(input: string): Promise<any> {
     }
 }
 
+
 export async function login(values: LoginFormType) {
     try {
-        const response = await axiosInstance.post("/auth/login/", values)
-        const token = response?.data?.classroom_token
-        if (response.status === 200) {
+        const response = await axiosInstance.post("/auth/login", values)
+        if (response?.status == 200) {
+            const token = response?.data?.classroom_token
             cookies().set("classroom_token", token, {
                 httpOnly: true,
                 expires: new Date(Date.now() + 1000 * 60 * 60 * 1)
             })
             return {
-                success: response?.data?.message || "Success"
+                success: "Success"
             }
         }
     }
-    catch (error: any) {
+    catch (error) {
         return {
-            error: error?.response?.data?.message || "Something went wrong"
+            error: "error"
         }
     }
 }
@@ -69,27 +70,25 @@ export async function register(values: RegisterFormType) {
         password: values.password
     }
     try {
-        const response = await axiosInstance.post("/auth/register/", parsedValue)
-
-        if (response?.status === 200) {
+        const response = await axiosInstance.post("/auth/register", parsedValue)
+        if (response.status == 200) {
             return {
-                success: response?.data?.message || "Successfully Registered"
+                success: response?.data.message || "Successfully Registered"
             }
         }
         else {
             return {
-                success: response?.data?.message || "Something went wrong"
+                error: response?.data.message || "Successfully Registered"
             }
         }
+
     }
     catch (error: any) {
         return {
-            error: error?.response?.data?.message || "Something went wrong"
+            error: "Something went wrong"
         }
     }
 }
-
-
 
 export const submitPost = async (url: string, values: any) => {
     try {
@@ -98,6 +97,11 @@ export const submitPost = async (url: string, values: any) => {
             revalidatePath("/")
             return {
                 success: response?.data?.message || "Success"
+            }
+        }
+        else {
+            return {
+                error: response?.data?.message || "Something went wrong"
             }
         }
     }
@@ -112,9 +116,15 @@ export const updatePost = async (url: string, values: any) => {
     try {
         const response = await axiosInstance.patch(url, values)
         if (response.status === 200) {
+            revalidatePath("/")
             return {
                 success: response?.data?.message || "Success",
                 data: response?.data
+            }
+        }
+        else {
+            return {
+                error: response?.data?.message || "Error"
             }
         }
     }
@@ -125,3 +135,27 @@ export const updatePost = async (url: string, values: any) => {
     }
 }
 
+export const getItems = async (url: string) => {
+    try {
+        const response = await axiosInstance.get(url)
+        if (response.status == 200) {
+            return response.data
+        }
+        else {
+            return null
+        }
+    }
+    catch (error: any) {
+        console.log(error?.response?.data?.message || "505 Error")
+    }
+}
+
+export const deleteRoom = async (id: string) => {
+    try {
+        const response = await axiosInstance.delete(`/class/${id}`)
+        return response.data
+    }
+    catch (error) {
+
+    }
+}

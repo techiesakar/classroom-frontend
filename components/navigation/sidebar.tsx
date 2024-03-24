@@ -1,6 +1,6 @@
 import React from 'react'
 import { SidebarScrollArea } from './scroll-area'
-import { getItems } from "@/lib/api"
+import { getItems } from '@/app/action'
 
 export const Sidebar = async () => {
     const classesTeach = await getItems("/class/views?type=teacher")

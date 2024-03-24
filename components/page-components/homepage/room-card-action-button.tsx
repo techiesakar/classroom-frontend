@@ -1,4 +1,5 @@
 "use client"
+import { deleteRoom } from "@/app/action"
 import { Button } from "@/components/ui/button"
 import {
     Popover,
@@ -11,11 +12,10 @@ import { MoreVertical } from "lucide-react"
 import toast from "react-hot-toast"
 
 interface PropsType {
-    inviteCode: string
+    inviteCode: string, isAdmin: boolean, roomId: string
 }
 
-export function RoomCardActionButton({ inviteCode }: PropsType) {
-
+export function RoomCardActionButton({ inviteCode, isAdmin, roomId }: PropsType) {
     const onCopy = () => {
         navigator.clipboard.writeText(inviteCode)
         toast.success('Copied', {
@@ -31,13 +31,21 @@ export function RoomCardActionButton({ inviteCode }: PropsType) {
             </PopoverTrigger>
             <PopoverContent className="w-fit py-1 px-2 absolute left-[-88px]" >
                 <div className=" flex flex-col text-sm">
-                    <Button variant="ghost" className="font-medium leading-none  w-full flex items-center justify-start p-2">Move</Button>
-                    <Button variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2">UnEnroll</Button>
+                    <Button
+                        onClick={async () => {
+                            const response = await deleteRoom(roomId)
+                            console.log(response)
+                        }}
+                        variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2">{isAdmin ? "Delete Room" : "UnEnroll"}</Button>
                     <PopoverClose>
                         <Button onClick={onCopy} variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2">Copy Invite Code</Button>
                     </PopoverClose>
-                    <Separator className="my-1" />
-                    <Button variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2">Report Abuse</Button>
+                    {!isAdmin &&
+                        <>
+                            <Separator className="my-1" />
+                            <Button variant="ghost" className="font-medium leading-none w-full flex items-center justify-start p-2">Report Abuse</Button>
+                        </>
+                    }
                 </div>
             </PopoverContent>
         </Popover>

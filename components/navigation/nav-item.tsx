@@ -5,17 +5,18 @@ import { Accordion, AccordionContent, AccordionTrigger } from "@/components/ui/a
 import { AccordionItem } from "@radix-ui/react-accordion";
 import { getColorByIndex } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { RoomType } from "@/lib/types";
+import { TRoom } from "@/lib/types";
 
 type PropsType = {
     label: string;
     icon: any;
-    options?: RoomType[];
+    options?: TRoom[];
     path?: string
 };
 export const NavItem = ({ label, icon, options, path }: PropsType) => {
     const Icon = icon;
     const router = useRouter()
+    console.log(options)
 
     return (
         <div className="w-full">
@@ -31,7 +32,7 @@ export const NavItem = ({ label, icon, options, path }: PropsType) => {
                                 </div>
                                 <div className="ml-3">{label}</div>
                             </AccordionTrigger>
-                            {options.map((item, index: number) => {
+                            {options?.map((item, index: number) => {
                                 const getClassColor = getColorByIndex(index)
                                 return (
                                     <AccordionContent key={index} onClick={() => router.push(`${"/c/" + item.id}` || "/")} className="pl-6  cursor-pointer text-xs border-gray-200 transition-all ease-in duration-100 hover:bg-slate-100 rounded-r-full  text-slate-600 font-medium  flex items-center justify-start leading-10 py-0.5">
